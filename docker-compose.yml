@@ -1,16 +1,5 @@
 version: '3'
 services:
-  redis:
-    container_name: $REDIS_CONTAINER_NAME
-    image: $REDIS_IMAGE
-    restart: always
-    ports:
-      - $REDIS_HOST_PORT:6379
-    volumes:
-      - redis_data:/data
-    command: redis-server --appendonly yes --requirepass secret_pass
-    #  - './data/redis:/data'
-    #  - './redis:/etc/redis'
   postgres:
     container_name: $PG_CONTAINER_NAME
     image: $PG_IMAGE
@@ -24,18 +13,15 @@ services:
       - $PG_HOST_PORT:5432
     volumes:
       - pg_data:/var/lib/postgresql/data
-#  mongodb:
-#    container_name: mongo_server
-#    image: mongo:3.6.20
-#    restart: always
-#    environment:
-#       - MONGO_INITDB_DATABASE=$MONGO_DB_NAME
-#       - MONGODB_USER=$MONGO_USER
-#       - MONGODB_PASS=$MONGO_PASSWORD
-#    volumes:
-#      - './data/mongo:/data/db'
-#    ports:
-#      - 27020:27017
+  redis:
+    container_name: $REDIS_CONTAINER_NAME
+    image: $REDIS_IMAGE
+    restart: always
+    ports:
+      - $REDIS_HOST_PORT:6379
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes --requirepass secret_pass
 volumes:
   pg_data:
     driver: local

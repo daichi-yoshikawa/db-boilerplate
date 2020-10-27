@@ -1,9 +1,9 @@
 # Postgresql DB
 ## Run postgresql DB container
-Define the following environment variable in .env.
+Define the following environment variable in .env file.
 * PG_CONTAINER_NAME: Name of container where postgres will run.
 * PG_IMAGE: Docker image to use.
-* PG_HOST_PORT: Port for postgres is forwarded to this port in host pc.
+* PG_HOST_PORT: Port for postgres is forwarded to this port in host.
 * PG_NAME: Database name to use.
 * PG_USER: User name.
 * PG_PASSWORD: Password.
@@ -39,7 +39,6 @@ $ docker stop <container name>
 (Example)
 $ docker stop pg_server
 ```
-
 
 ## Login postgres from host
 Install postgresql client.
@@ -78,10 +77,10 @@ $ sudo rm -r <path-to-mounted-dir>
 
 # Redis
 ## Run redis container
-Define the following environment variable in .env.
+Define the following environment variable in .env file.
 * REDIS_CONTAINER_NAME: Name of container where redis server will run.
 * REDIS_IMAGE: Docker image to use.
-* REDIS_HOST_PORT: Port for postgres is forwarded to this port in host pc.
+* REDIS_HOST_PORT: Port for redis is forwarded to this port in host.
 * REDIS_PASSWORD: Password.
 * REDIS_MOUNTED_VOLUME: Directory mounted to store data of redis container parmanetly.
 
