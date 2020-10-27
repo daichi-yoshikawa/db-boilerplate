@@ -1,4 +1,11 @@
+data/pg/
+data/redis/
+data/mongodb/
+data/sqlite/
+!data/pg/.dummy
+!data/redis/.dummy
+!data/mongodb/.dummy
+!data/sqlite/.dummy
+
 *.env*
-!redis.env.default
-!pg.env.default
-!.env.d/
+!dot.env.default
