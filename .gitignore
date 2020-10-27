@@ -1,0 +1,4 @@
+*.env*
+!redis.env.default
+!pg.env.default
+!.env.d/

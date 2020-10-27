@@ -1,0 +1,47 @@
+version: '3'
+services:
+#  redis:
+#    env_file:
+#      - ./dot.env.default
+#    container_name: redis_server
+#    image: 'redis:6.0.8'
+#    restart: always
+#    ports:
+#      - '6379:6379'
+#    volumes:
+#      - './data/redis:/data'
+#      - './redis:/etc/redis'
+  postgres:
+    container_name: $CONTAINER_NAME
+    image: $PG_IMAGE
+    restart: always
+    environment:
+      - POSTGRES_DB=$PG_DB_NAME
+      - POSTGRES_USER=$PG_USER
+      - POSTGRES_PORT=5432
+      - POSTGRES_PASSWORD=$PG_PASSWORD
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+#    volumes:
+#      - "./data/pg:/var/lib/postgresql/data"
+#  mongodb:
+#    container_name: mongo_server
+#    image: mongo:3.6.20
+#    restart: always
+#    environment:
+#       - MONGO_INITDB_DATABASE=$MONGO_DB_NAME
+#       - MONGODB_USER=$MONGO_USER
+#       - MONGODB_PASS=$MONGO_PASSWORD
+#    volumes:
+#      - './data/mongo:/data/db'
+#    ports:
+#      - 27020:27017
+volumes:
+  pg_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PG_MOUNTED_VOLUME
+      o: bind
