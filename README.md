@@ -1,23 +1,22 @@
 # Postgresql DB
 ## Run postgresql DB container
 Define the following environment variable in .env file.
-* PG_CONTAINER_NAME: Name of container where postgres will run.
-* PG_IMAGE: Docker image to use.
-* PG_HOST_PORT: Port for postgres is forwarded to this port in host.
-* PG_NAME: Database name to use.
-* PG_USER: User name.
-* PG_PASSWORD: Password.
-* PG_MOUNTED_VOLUME: Directory mounted to store data of pg container parmanetly.
+* POSTGRES_CONTAINER_NAME: Name of container where postgres will run.
+* POSTGRES_DB: Database name
+* POSTGRES_HOST_PORT: Port for postgres is forwarded to this port in host.
+* POSTGRES_USER: User name.
+* POSTGRES_PASSWORD: Password.
+* POSTGRES_MOUNTED_VOLUME: Directory mounted to store data of pg container parmanetly.
 
 Here's an example of .env file. Note that .env file can be prepared mode-wise, such as .env.production, .env.development, and .env.testing, etc., also can be stored in .env.d dir.
 ```
 (.env.d/.env.development)
-PG_IMAGE='postgres:12.4'
-PG_HOST_PORT=5432
-PG_DB_NAME=pg_db_dev
-PG_USER=pg_user_dev
-PG_PASSWORD=pgsecrepassword
-PG_MOUNTED_VOLUME=./data/pg
+POSTGRES_CONTAINER_NAME=postgres_server
+POSTGRES_DB=postgres_dev
+POSTGRES_HOST_PORT=5432
+POSTGRES_USER=user_dev
+POSTGRES_PASSWORD=secret_dev
+POSTGRES_MOUNTED_VOLUME=./data/postgres
 ```
 
 You can run postgres docker container as below.
@@ -30,14 +29,14 @@ $ docker-compose --env-file ./.env.d/pg.env.development up -d postgres
 You may like to avoid storing password even in .env file.<br>
 In this case, execute docker-compose as follow.
 ```
-$ PG_PASSWORD=<password> docker-compose --env-file <path-to-envfile> up -d <service-name>
+$ POSTGRES_PASSWORD=<password> docker-compose --env-file <path-to-envfile> up -d <service-name>
 ```
 
 ## Stop container
 ```
 $ docker stop <container name>
 (Example)
-$ docker stop pg_server
+$ docker stop postgres_server
 ```
 
 ## Login postgres from host
@@ -53,6 +52,9 @@ $ psql -U user_dev -h 127.0.0.1 -p 5432 -d postgres_dev
 ```
 
 ## Trouble shooting(Postgres)
+### Repeatedly container is restarted
+Perhaps caused by failure of mounting volume. If possible, clear the mounted volume and redo docker-compose.
+
 ### Password authentication failed
 When you try to login by psql, you may encounter authentication error.<br>
 Try again as super user.
@@ -79,7 +81,6 @@ $ sudo rm -r <path-to-mounted-dir>
 ## Run redis container
 Define the following environment variable in .env file.
 * REDIS_CONTAINER_NAME: Name of container where redis server will run.
-* REDIS_IMAGE: Docker image to use.
 * REDIS_HOST_PORT: Port for redis is forwarded to this port in host.
 * REDIS_PASSWORD: Password.
 * REDIS_MOUNTED_VOLUME: Directory mounted to store data of redis container parmanetly.
@@ -109,4 +110,15 @@ Instead of using '-a' option, you can set REDISCLI_AUTH environment variable.
 $ redis-cli -n <dbnum> -h <host> -p <port> -a <password> ping
 (Example)
 $ redis-cli -h 127.0.0.1 -p 6379 ping -a secret_pass ping
+```
+
+# Tips
+## Stop and down by docker-compose.
+Do not forget specify .env file.
+```
+$ docker-compose --env-file <envfile> stop/down
+(Example 1)
+$ docker-compose --env-file .env.d/.env.development stop
+(Example 2)
+$ docker-compose --env-file .env.d/.env.development down
 ```
